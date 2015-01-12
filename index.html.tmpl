@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="{{title}}">
+        <meta name="author" content="Minyoung Jeong">
+
+        <title>{{title}}</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+        <script>
+            window.kw = {
+                link: '{{permalink}}',
+                label: '{{title}}'
+            };
+        </script>
+
+        <style>
+            body {
+                //min-height: 1600px;
+                //padding-top: 50px;
+                color: #856750;
+                background-color: #ede9e2;
+            }
+
+            .text-larger {
+                font-size: 1.5em;
+            }
+
+            .page-header {
+                padding-bottom: 9px;
+                margin: 40px 0 20px;
+                border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+            }
+
+            ul.share > li > a { 
+                color: #856750;
+            }
+
+            .share-desc {
+                display: block;
+                text-align: center;
+                word-wrap: break-word;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--<nav class="navbar navbar-default navbar-fixed-top">-->
+            <!--<div class="container">-->
+                <!--<div class="navbar-header">-->
+                    <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
+                        <!--<span class="sr-only">Toggle navigation</span>-->
+                        <!--<span class="icon-bar"></span>-->
+                        <!--<span class="icon-bar"></span>-->
+                        <!--<span class="icon-bar"></span>-->
+                    <!--</button>-->
+                    <!--<a class="navbar-brand" href="#">정민영♥윤지예 결혼</a>-->
+                <!--</div>-->
+                <!--<div id="navbar" class="navbar-collapse collapse">-->
+                    <!--<ul class="nav navbar-nav">-->
+                        <!--<li class="active"><a href="#">처음</a></li>-->
+                        <!--<li><a href="#greeting">인사말</a></li>-->
+                        <!--<li><a href="#map">오시는길</a></li>-->
+                    <!--</ul>-->
+                <!--</div>[>/.nav-collapse <]-->
+            <!--</div>-->
+        <!--</nav>-->
+        <div class="wi_container">
+            <div id="wedding_carosuel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for i in range(images|count) %}
+                    <li data-target"#wedding_carosuel" data-slide-to="{{i}}" {% if loop.first %}class="active"{%endif%}></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    {% for image in images %}
+                        <div class="item {%if loop.first %}active{%endif%}">
+                            <img src="{{image_base}}images/{{image}}" />
+                        </div>
+                    {% endfor %}
+                </div> <!-- /.carousel-inner -->
+                <a class="left carousel-control" href="#wedding_carosuel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#wedding_carosuel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div> <!-- /.carousel -->
+        </div> <!-- ./wi_container -->
+        <!--<hr style="border-top: dotted 2px; margin-top: 1px; margin-bottom: 5px;" /> -->
+        <div class="container" id="greeting">
+            <div class="page-header text-center">
+                <img src="images/groom.png" alt="groom" />
+                <img src="images/bride.png" alt="bride" />
+             </div>
+             <h3 class="text-center">
+                {{greeting['title']}}
+             </h3>
+
+             <p class="text-center">
+                {{greeting['letter']}}
+            </p>
+
+             <p class="text-center text-larger" style="color: #b29586">
+                {{greeting['location']}}
+             </p>
+             <p class="text-center">
+                 {% for p in (greeting['parents']['groom'], greeting['parents']['bride']) %}
+                     <strong>{{p['father']}}</strong>·<strong>{{p['mother']}}</strong>의 {{p['st']}} <strong>{{p['name']}}</strong>{% if loop.first %}<br />{%endif%}
+                 {% endfor %}
+             </p>
+        </div>
+
+        <div class="container" id="map">
+            <div class="page-header text-center">
+                <h3>오시는길</h3>
+            </div>
+            <div class="map_area">
+                <div class="naver_map" id="naver_map"></div>
+                <script type="text/javascript" src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&key={{naver_map['apikey']}}"></script>
+                <script type="text/javascript">
+                    (function($, container) {
+                        var lat = {{naver_map['lat']}};
+                        var lng = {{naver_map['lng']}};
+                        var level = 11;
+                        var loc_point = new nhn.api.map.LatLng(lat, lng);
+                        var min_height = 300;
+
+                        var map = new nhn.api.map.Map(container, {
+                            point: loc_point,
+                            zoom: level,
+                            enableWheelZoom: true,
+                            enableDragPan: true,
+                            enableDblClickZoom: false,
+                            mapMode: 0,
+                            activateTrafficMap: false,
+                            activateBicycleMap: false,
+                            minMaxLevel: [1, 14],
+                            size: new nhn.api.map.Size(320, 300)
+                        });
+
+                        var slider = new nhn.api.map.ZoomControl();
+                        map.addControl(slider);
+
+                        var marker = new nhn.api.map.Marker(
+                            new nhn.api.map.Icon(
+                                'http://static.naver.com/maps2/icons/pin_spot2.png',
+                                new nhn.api.map.Size(28, 37),
+                                new nhn.api.map.Size(14, 37)
+                            ), {
+                                title: "{{naver_map['label']}}"
+                            }
+                        );
+                        marker.setPoint(loc_point);
+                        map.addOverlay(marker);
+
+                        var label = new nhn.api.map.MarkerLabel();
+                        map.addOverlay(label);
+                        label.setVisible(true, marker);
+
+                        $(window).resize(function() {
+                            var rw = $('.map_area').width();
+                            var rh = rw / 2;
+                            rh = (rh < min_height ? min_height : rh);
+                            console.log("x: " + rw);
+                            map.setSize(new nhn.api.map.Size(rw, rh));
+                        });
+                    })(jQuery, document.getElementById('naver_map'));
+                </script>
+            </div>
+            <div class="rough_map">
+                <a href="images/map.jpg">
+                    <img class="img-responsive" src="images/map.jpg" alt="rough_map" />
+                </a>
+            </div>
+        </div> <!-- /.map -->
+        <div class="container" id="share">
+            <div class="page-header">
+            </div>
+            <ul class="list-inline text-center share">
+                <li>
+                    <a href="sms:groom" id="sms-groom">
+                        <i class="fa fa-3x fa-mobile" style="color: #90acdd"></i>
+                        <span class="share-desc">신랑</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="sms:bride" id="sms-bride">
+                        <i class="fa fa-3x fa-mobile" style="color: #e6868e"></i>
+                        <span class="share-desc">신부</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;;" id="sms-kakaotalk">
+                        <i class="fa fa-3x fa-comment"></i>
+                        <span class="share-desc">카카오톡</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/sharer.php?u={{permalink|urlencode}}" target="_blank">
+                        <i class="fa fa-3x fa-facebook"></i>
+                        <span class="share-desc">페이스북</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/share?url={{permalink|urlencode}}&text={{title|urlencode}}" target="_blank">
+                        <i class="fa fa-3x fa-twitter"></i>
+                        <span class="share-desc">트위터</span>
+                    </a>
+                </li>
+            </ul>
+            <script>
+                (function($) {
+                    Kakao.init('{{kakao['apikey']}}');
+                    Kakao.Link.createTalkLinkButton({
+                        container: '#sms-kakaotalk',
+                        label: window.kw.label,
+                        webLink: {
+                            text: '모바일 청첩장 보러가기',
+                            url: window.kw.link
+                        }
+                    });
+
+                    $("sms-groom").attr("href", "sms" + {{contacts['groom']}});
+                    $("sms-bride").attr("href", "sms:" + {{contacts['bride']}});
+                })(jQuery);
+            </script>
+        </div>
+    </body>
+</html>

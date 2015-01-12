@@ -1,0 +1,48 @@
+title: 정민영♥윤지예의 결혼식에 초대합니다
+permalink: https://bit.ly/myjywedding
+image_base: http://ddlmylx4omy7.cloudfront.net/
+images:
+    - wi1.jpg
+    - wi2.jpg
+    - wi3.jpg
+    - wi4.jpg
+    - wi5.jpg
+    - wi6.jpg
+greeting:
+    title: 정민영 ♥ 윤지예
+    letter: |
+        전설에 의하면,
+        부부가 될 운명의 이들은
+        서로의 손에 붉은 실이 묶여 있어
+        어떤 어려움이 있어도 결국 부부의 연을 맺게 된다다고 합니다.
+        
+        <br />
+        <br />
+        
+        여기 서로의 손가락에 묶여있던 실의 끝을 찾아
+        해매던 이들이 마침내 부부의 연을 맺고자 합니다.
+        그 인연의 자리에 초대하고자 하오니 부디 참석하시어 축복해 주시면 감사하겠습니다.
+    location: |
+        2015년 1월 24일(토) 오후 12시<br />
+        프레지던트호텔 31층 슈벨트홀
+    parents:
+        groom:
+            father: 정진영
+            mother: 심희순
+            st: 장남
+            name: 민영
+        bride:
+            father: 윤수만
+            mother: 강경숙
+            st: 장녀
+            name: 지예
+naver_map:
+    apikey: naver api key
+    lat: 37.5656662
+    lng: 126.9793775
+    label: 프레지던트호텔
+kakao:
+    apikey: kakao api key
+contacts:
+    groom: 01012341234
+    bride: 01012341234

@@ -1,0 +1,9 @@
+env
+index.html
+.DS_Store
+s3cfg
+*.pyc
+*.swp
+.ropeproject
+marriage.yaml
+images/*
